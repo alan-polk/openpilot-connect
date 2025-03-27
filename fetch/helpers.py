@@ -103,9 +103,11 @@ def get_upload_urls(dongle_id, paths):
     url = f'{base_url}/v1/{dongle_id}/upload_urls'
     for i, path in enumerate(paths):
         if 'rlog' in path:
-            paths[i] = path + ".bz2"
+            if not path.endswith('.bz2') and not path.endswith('.zst'):
+                paths[i] = path + ".zst"  # Default to .zst for newer versions
         if 'qlog' in path:
-            paths[i] = path + ".bz2"
+            if not path.endswith('.bz2') and not path.endswith('.zst'):
+                paths[i] = path + ".zst"  # Default to .zst for newer versions
         if 'qcam' in path:
             if not ".ts" in path:
                 path = path + ".ts"
